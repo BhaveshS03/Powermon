@@ -1,0 +1,10 @@
+{
+    "description" : "CPU power monitor (Only for AMD)",
+    "name" : "powermon",
+    "shell-version":[
+        "46"
+    ],
+    "url" : "",
+    "uuid":"powermon@zen.com",
+    "version":"0.0.1"
+}
