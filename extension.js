@@ -10,8 +10,14 @@ export default class PowermonExtension extends Extension {
 
   constructor(metadata) {
     super(metadata);
-    console.debug(`constructing ${this.metadata.name}`);
 
+    this._panelButton = null;
+    this._panelButtonText = null;
+    this._timeout = null;
+    this._reader = null;
+  }
+
+  enable() {
     this._panelButton = new St.Bin({
       style_class: 'panel-button',
     });
@@ -21,11 +27,6 @@ export default class PowermonExtension extends Extension {
     });
     this._panelButton.set_child(this._panelButtonText);
 
-    this._timeout = null;
-    this._reader = null;
-  }
-
-  enable() {
     this._reader = new CpuPowerReader();
     Main.panel._rightBox.insert_child_at_index(this._panelButton, 1);
 
@@ -41,12 +42,14 @@ export default class PowermonExtension extends Extension {
   }
 
   disable() {
-    console.debug(`disabling ${this.metadata.name}`);
     if (this._timeout) {
       GLib.source_remove(this._timeout);
       this._timeout = null;
     }
     this._reader = null;
     Main.panel._rightBox.remove_child(this._panelButton);
+    this._panelButton.destroy();
+    this._panelButton = null;
+    this._panelButtonText = null;
   }
 }
