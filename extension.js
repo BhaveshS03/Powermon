@@ -1,53 +1,50 @@
 import St from 'gi://St';
-
-import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
-import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import GLib from 'gi://GLib';
-import Gio from 'gi://Gio';
 
-let utf8decoder = new TextDecoder();
-let panelButton, panelButtonText,timeout;  
+import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js';
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
+import { CpuPowerReader } from './cpuPowerReader.js';
 
-function bashSyncCommand( command )
-{
-
-	var [ok,out,error,exit] = GLib.spawn_command_line_sync( `bash -c "${command}"` );
-  let watts = utf8decoder.decode(out);
-  panelButtonText.set_text("CPU: "+watts.toString().slice(0,4)+" W");
-
-}
-
-export default class ExampleExtension extends Extension {
+export default class PowermonExtension extends Extension {
 
   constructor(metadata) {
-    super(metadata)
+    super(metadata);
     console.debug(`constructing ${this.metadata.name}`);
-    
-     panelButton = new St.Bin({
-      style_class: 'panel-button'
-     });
-     panelButtonText = new St.Label({
-      style_class : 'examplePanelText',
-      text : 'Starting..'
-     });
-     panelButton.set_child(panelButtonText);
-    }
 
-    enable() {
-      Main.panel._rightBox.insert_child_at_index(panelButton,1);
+    this._panelButton = new St.Bin({
+      style_class: 'panel-button',
+    });
+    this._panelButtonText = new St.Label({
+      style_class: 'examplePanelText',
+      text: 'Starting..',
+    });
+    this._panelButton.set_child(this._panelButtonText);
 
-      timeout = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, 2.0,   () => {  
-        bashSyncCommand('./zenmonitor-cli');
-        return GLib.SOURCE_CONTINUE;;
-        }
-      );
-    }
+    this._timeout = null;
+    this._reader = new CpuPowerReader();
+  }
 
-    disable() {
-      console.debug(`disabling ${this.metadata.name}`);
-      GLib.source_remove(timeout);  
-      Main.panel._rightBox.remove_child(panelButton);
+  enable() {
+    Main.panel._rightBox.insert_child_at_index(this._panelButton, 1);
+
+    this._timeout = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, 2, () => {
+      const watts = this._reader.getPowerInWatts();
+      if (watts !== null) {
+        this._panelButtonText.set_text(`CPU: ${watts.toFixed(1)} W`);
+      } else {
+        this._panelButtonText.set_text('CPU: N/A');
+      }
+      return GLib.SOURCE_CONTINUE;
+    });
+  }
+
+  disable() {
+    console.debug(`disabling ${this.metadata.name}`);
+    if (this._timeout) {
+      GLib.source_remove(this._timeout);
+      this._timeout = null;
     }
+    Main.panel._rightBox.remove_child(this._panelButton);
+  }
 }
-

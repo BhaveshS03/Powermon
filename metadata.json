@@ -1,10 +1,13 @@
 {
-    "description" : "CPU power monitor (Only for AMD)",
-    "name" : "powermon",
-    "shell-version":[
-        "46"
+    "description": "CPU power monitor (AMD & Intel)",
+    "name": "powermon",
+    "shell-version": [
+        "46",
+        "47",
+        "48",
+        "49"
     ],
-    "url" : "",
-    "uuid":"powermon@zen.com",
-    "version":"0.0.1"
+    "url": "",
+    "uuid": "powermon@zzen.me",
+    "version": "0.1.0"
 }

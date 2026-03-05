@@ -4,7 +4,7 @@
 ![Powermon](https://github.com/user-attachments/assets/9cc49517-ad4c-495c-badd-d25a5a5f879a)
 
 It is powered by zenpower kernel module,
-More CPUs Support comming soon.
+Works on AMD(Tested with zenergy driver) and Intel CPUs.
 
 Custom zenmonitor binary shipped with Extenstion.
 
