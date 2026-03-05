@@ -7,12 +7,18 @@ It is powered by zenpower kernel module,
 Works on AMD(Tested with zenergy driver) and Intel CPUs, raise issue of not working.
 
 
-To Use:
+## Steps
+### Prerequisite:
 ```
 Install zenergy(recomended)/zenpower3 for AMD, or Intel RAPL kernel module using DKMS.
+```
 
-Clone this repo to exetension of gnome Folder
+### Install Extension:
 
+```bash
+git clone https://github.com/BhaveshS03/Powermon.git
+cd Powermon
+cp -r * ~/.local/share/gnome-shell/extensions/powermon@zzen.me
 ```
 
 ## My Gnome Rice
