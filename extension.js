@@ -22,10 +22,11 @@ export default class PowermonExtension extends Extension {
     this._panelButton.set_child(this._panelButtonText);
 
     this._timeout = null;
-    this._reader = new CpuPowerReader();
+    this._reader = null;
   }
 
   enable() {
+    this._reader = new CpuPowerReader();
     Main.panel._rightBox.insert_child_at_index(this._panelButton, 1);
 
     this._timeout = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, 2, () => {
@@ -45,6 +46,7 @@ export default class PowermonExtension extends Extension {
       GLib.source_remove(this._timeout);
       this._timeout = null;
     }
+    this._reader = null;
     Main.panel._rightBox.remove_child(this._panelButton);
   }
 }
