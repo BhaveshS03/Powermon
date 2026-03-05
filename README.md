@@ -1,10 +1,10 @@
-# PowerMonitor for Ryzen CPUs
+# PowerMonitor for CPUs
 ### For Gnome Desktop
 
 ![Powermon](https://github.com/user-attachments/assets/9cc49517-ad4c-495c-badd-d25a5a5f879a)
 
 It is powered by zenpower kernel module,
-Works on AMD(Tested with zenergy driver) and Intel CPUs.
+Works on AMD(Tested with zenergy driver) and Intel CPUs, raise issue of not working.
 
 Custom zenmonitor binary shipped with Extenstion.
 
