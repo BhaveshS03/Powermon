@@ -6,11 +6,10 @@
 It is powered by zenpower kernel module,
 Works on AMD(Tested with zenergy driver) and Intel CPUs, raise issue of not working.
 
-Custom zenmonitor binary shipped with Extenstion.
 
 To Use:
 ```
-Install zenpower3 kernel modules using DKMS.
+Install zenergy(recomended)/zenpower3 for AMD, or Intel RAPL kernel module using DKMS.
 
 Clone this repo to exetension of gnome Folder
 
